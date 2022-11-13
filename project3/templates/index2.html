@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Coming Soon - Start Bootstrap Theme</title>
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="/static/css/styles2.css" rel="stylesheet" />
+        <!-- Core theme JS-->
+        <script src="/static/js/scripts2.js"></script>
+    </head>
+    <body>
+      <div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+          <div class="container px-4">
+              <a class="navbar-brand" href="#page-top"><img src="../static/image/icon_white.png" width="24" alt="icon" height="24"> 전적 분석 서비스</a>
+          </div>
+        </nav>
+      </div>
+      <header class="bg-secondary bg-gradient text-white">
+        <div class="container px-4 text-center">
+            <h1 class="fw-bolder"><head>
+                <ul>"소환사님의 최근 전적"</ul>
+            </head> </h1>
+            <h4>클릭하여 해당 전적의 승패요인을 분석해보자!</h3>
+            <p class="lead"></p>
+        </div>
+      </header>
+      <section class="bg-light" id="about">
+              <div class="row gx-4 justify-content-center">
+                      <ul>
+                        <div class="table-responsive">
+                          <table class="table table-hover caption-top table-bordered">
+                            <caption><strong><솔로랭크, 자유랭크, 일반게임만 추려낸 최근 전적 테이블></strong></caption>
+                              <thead>
+                                  <tr>
+                                    <th scope="col">id</th>
+                                    <th scope="col">소환사명</th>
+                                      <th scope="col">맵</th>
+                                      <th scope="col">시간</th>
+                                      <th scope="col">챔피언</th>
+                                      <th scope="col">레벨</th>
+                                      <th scope="col">스펠</th>
+                                      <th scope="col">룬</th>
+                                      <th scope="col">아이템</th>
+                                      <th scope="col">kill</th>
+                                      <th scope="col">death</th>
+                                      <th scope="col">assist</th>
+                                      <th scope="col">킬관여율</th>
+                                      <th scope="col">제어와드 수</th>
+                                      <th scope="col">cs</th>
+                                      <th scope="col">분당 cs</th>
+                                      <th scope="col">평균 티어</th>
+                                      <th scope="col">팀 조합</th>
+                                      <th scope="col">적 조합</th>
+                                      <th scope="col">진영</th>
+                                      <th scope="col">승패</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {% for i in data %}
+                                  <tr onclick=location.href="{% url 'index3' i.id %}" style="cursor:pointer">
+                                    <th scope="row">{{i.id}}</th>
+                                    <td>{{i.summoners}}</td>
+                                    <td>{{i.game}}</td>
+                                    <td>{{i.time}}</td>
+                                    <td><img src={{i.champion}} alt="oh" width="22" height="22"></td>
+                                    <td>{{i.level}}</td>
+                                    <td><img src={{i.d_spell}} alt="oh" width="22" height="22"> <img src={{i.f_spell}} alt="oh" width="22" height="22"></td>
+                                    <td><img src={{i.main_rune}} alt="oh" width="22" height="22"> <img src={{i.sun_rune}} alt="oh" width="22" height="22"></td>
+                                    <td>{{i.items}}</td>
+                                    <td>{{i.kill}}</td>
+                                    <td>{{i.death}}</td>
+                                    <td>{{i.assist}}</td>
+                                    <td>{{i.p_kill}}</td>
+                                    <td>{{i.pinkward}}</td>
+                                    <td>{{i.cs}}</td>
+                                    <td>{{i.cs_per_min}}</td>
+                                    <td>{{i.average_tier}}</td>
+                                    <td>wait</td>
+                                    <td>wait</td>
+                                    <td>{{i.side}}</td>
+                                    <td>{{i.result}}</td>
+                                  </tr>
+                                  {% endfor %}
+                                </tbody>
+                          </table>
+                        </ul>
+                      </div>
+              </div>
+      </section>
+      <footer class="py-5 bg-dark">
+        <div class="container px-4"><p class="m-0 text-center text-white">제작자 : 정태환</p></div>
+      </footer>
+    </body>
+</html>
