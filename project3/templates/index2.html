@@ -15,7 +15,7 @@
       <div>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
           <div class="container px-4">
-              <a class="navbar-brand" href="#page-top"><img src="../static/image/icon_white.png" width="24" alt="icon" height="24"> 전적 분석 서비스</a>
+              <a class="navbar-brand" href="{% url 'index' %}"><img src="../static/image/icon_white.png" width="24" alt="icon" height="24"> 전적 분석 서비스</a>
           </div>
         </nav>
       </div>
@@ -45,11 +45,9 @@
                                       <th scope="col">스펠</th>
                                       <th scope="col">룬</th>
                                       <th scope="col">아이템</th>
-                                      <th scope="col">kill</th>
-                                      <th scope="col">death</th>
-                                      <th scope="col">assist</th>
+                                      <th scope="col">k/d/a</th>
                                       <th scope="col">킬관여율</th>
-                                      <th scope="col">제어와드 수</th>
+                                      <th scope="col">제어와드</th>
                                       <th scope="col">cs</th>
                                       <th scope="col">분당 cs</th>
                                       <th scope="col">평균 티어</th>
@@ -69,11 +67,9 @@
                                     <td><img src={{i.champion}} alt="oh" width="22" height="22"></td>
                                     <td>{{i.level}}</td>
                                     <td><img src={{i.d_spell}} alt="oh" width="22" height="22"> <img src={{i.f_spell}} alt="oh" width="22" height="22"></td>
-                                    <td><img src={{i.main_rune}} alt="oh" width="22" height="22"> <img src={{i.sun_rune}} alt="oh" width="22" height="22"></td>
+                                    <td><img src={{i.main_rune}} alt="oh" width="22" height="22"> <img src={{i.sub_rune}} alt="oh" width="22" height="22"></td>
                                     <td>{{i.items}}</td>
-                                    <td>{{i.kill}}</td>
-                                    <td>{{i.death}}</td>
-                                    <td>{{i.assist}}</td>
+                                    <td>{{i.kill}}/{{i.death}}/{{i.assist}}</td>
                                     <td>{{i.p_kill}}</td>
                                     <td>{{i.pinkward}}</td>
                                     <td>{{i.cs}}</td>

@@ -10,19 +10,23 @@ from .ai import preprocess, shap_plot
 from django.http import HttpResponseRedirect
 from .form import NameForm
 
-# Create your views here.
+# 첫 화면 출력.
 def index(request):
     return render(request, 'index.html')
 
+# 소환사 명을 받아서 db에서 필터링한 결과를 보내줌.
 def index2(request):
     name = request.GET['summoners']
     dat = data.objects.filter(summoners=name)
     context = {"data" : dat}
     return render(request, 'index2.html', context)
 
+# 두번째화면에서 클릭한 row에 해당하는 index값의 shap_plot을 생성하고 이를 출력.
 def index3(request, id):
     with open('project3/model.pickle', 'rb') as fr:
         model = pickle.load(fr)
     pro_x, y, pro_df = preprocess()
     shap_plot(model, pro_df, id)
-    return render(request, 'index3.html')
+    dat = data.objects.get(id=id)
+    context = {"data" : dat}
+    return render(request, 'index3.html', context)

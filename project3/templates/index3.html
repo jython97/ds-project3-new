@@ -15,17 +15,72 @@
       <div>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
           <div class="container px-4">
-              <a class="navbar-brand" href="#page-top"><img src="../static/image/icon_white.png" width="24" alt="icon" height="24"> 전적 분석 서비스</a>
+              <a class="navbar-brand" href="{% url 'index' %}"><img src="../static/image/icon_white.png" width="24" alt="icon" height="24"> 전적 분석 서비스</a>
           </div>
         </nav>
       </div>
       <header class="bg-secondary bg-gradient text-white">
         <div class="container px-4 text-center">
-            <h1 class="fw-bolder"><head><ul>"선택한 게임 분석 결과"</ul></head></h1>
+            <h1 class="fw-bolder"><head><ul>"해당 전적 분석 결과"</ul></head></h1>
         </div>
       </header>
       <section class="bg-light" id="about">
         <img src="../static/image/shap.png" alt="shap" width="1700">
+        <p align="center">
+          <strong><분석결과 해석방법></strong><br/>
+          1. 빨간색 부분이 승리에 영향을 끼친 요소이고 파란색 부분이 패배에 영향을 끼친 요소를 가르킵니다.<br/>
+          2. 길이가 길수록 더 많은 영향을 끼쳤다는 사실을 나타내며 표현되는 수치값은 학습을 위한 스케일링 값이므로 실제수치와 동일하지 않습니다.<br/>
+          3. 정확한 해석은 아래 해당 전적의 실제수치와 매칭시켜서 해석하는 방식이며 '승패'를 먼저 확인하고 해당하는 조건에 맞게 해석하면 됩니다.<br/>
+          ex) '승패'가 Victory면 빨간색 부분을 확인하여 가장 긴부분이 승리에 가장 많은 영향을 끼친 요소라는 것을 확인할 수 있고 파란색 부분을 확인하여 해당 전적을 패배로 이끌 수 있었던 위험요소들을 파악할 수 있습니다.<br/>
+          그리고 아래 실제 전적정보를 통해 해당 요소들의 실제값을 매칭하여 더 깊게 해석할 수 있습니다. '원딜인데 death가 10일 정도로 많다' 등등<br/><br/>
+        </p>
+        <table class="table table-hover caption-top table-bordered">
+            <thead>
+                <tr>
+                  <th scope="col">id</th>
+                  <th scope="col">소환사명</th>
+                    <th scope="col">맵</th>
+                    <th scope="col">시간</th>
+                    <th scope="col">챔피언</th>
+                    <th scope="col">레벨</th>
+                    <th scope="col">스펠</th>
+                    <th scope="col">룬</th>
+                    <th scope="col">k/d/a</th>
+                    <th scope="col">킬관여율</th>
+                    <th scope="col">제어와드</th>
+                    <th scope="col">cs</th>
+                    <th scope="col">분당 cs</th>
+                    <th scope="col">평균 티어</th>
+                    <th scope="col">팀 조합</th>
+                    <th scope="col">적 조합</th>
+                    <th scope="col">진영</th>
+                    <th scope="col">승패</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">{{data.id}}</th>
+                  <td>{{data.summoners}}</td>
+                  <td>{{data.game}}</td>
+                  <td>{{data.time}}</td>
+                  <td><img src={{data.champion}} alt="oh" width="22" height="22"></td>
+                  <td>{{data.level}}</td>
+                  <td><img src={{data.d_spell}} alt="oh" width="22" height="22">
+                    <img src={{data.f_spell}} alt="oh" width="22" height="22"></td>
+                  <td><img src={{data.main_rune}} alt="oh" width="22" height="22"><img src={{data.sub_rune}} alt="oh" width="22" height="22"></td>
+                  <td>{{data.kill}}/{{data.death}}/{{data.assist}}</td>
+                  <td>{{data.p_kill}}</td>
+                  <td>{{data.pinkward}}</td>
+                  <td>{{data.cs}}</td>
+                  <td>{{data.cs_per_min}}</td>
+                  <td>{{data.average_tier}}</td>
+                  <td>wait</td>
+                  <td>wait</td>
+                  <td>{{data.side}}</td>
+                  <td>{{data.result}}</td>
+                </tr>
+              </tbody>
+        </table>
       </section>
       <footer class="py-5 bg-dark">
         <div class="container px-4"><p class="m-0 text-center text-white">제작자 : 정태환</p></div>
