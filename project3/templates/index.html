@@ -23,8 +23,7 @@
                 <div class="container-fluid px-4 px-lg-0">
                     <h1 class="fst-italic lh-1 mb-4">소환사 이름 검색</h1>
                     <p class="mb-5">소환사명을 검색하면 최근 20게임들 중 '소환사의 협곡'에서 경기한 전적데이터들을 보여줄 것입니다.</p>
-                    <!-- to get an API token!-->
-                    <form id="contactForm" method="GET">
+                    <form action="{% url 'index2' %}" method="get">
                         <div class="row input-group-newsletter">
                             <div class="col"><input class="form-control" name="summoners" type="text" placeholder="소환사명을 입력하세요."/></div>
                             <div class="col-auto"><button class="btn btn-primary" id="submit" type="submit">Search</button></div>

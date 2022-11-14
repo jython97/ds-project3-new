@@ -70,7 +70,7 @@ def row_drop():
 
 def preprocess():
     # 필요없는 칼럼들 drop
-    df = pd.read_csv('drop_data.csv')
+    df = pd.read_csv('project3/drop_data.csv')
     df.drop(['summoners', 'items', 'team_champs', 'team', 'enemy_champ', 'enemy'], axis=1, inplace=True)
 
     # 시간을 초단위로 변환
@@ -155,7 +155,7 @@ def shap_plot(model, pro_df, index):
         features=row,
         show=False,
         matplotlib = True
-    ).savefig('static/image/shap.png')
+    ).savefig('project3/static/image/shap.png')
     return explainer, shap_values
 
 # pro_x, y, pro_df = preprocess()

@@ -7,18 +7,21 @@ from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 import pickle
 import numpy as np
 from .ai import preprocess, shap_plot
+from django.http import HttpResponseRedirect
+from .form import NameForm
 
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
 
-def index2(request, summoners):
-    dat = data.objects.get(summoners=summoners)
+def index2(request):
+    name = request.GET['summoners']
+    dat = data.objects.filter(summoners=name)
     context = {"data" : dat}
     return render(request, 'index2.html', context)
 
 def index3(request, id):
-    with open('model.pickle', 'rb') as fr:
+    with open('project3/model.pickle', 'rb') as fr:
         model = pickle.load(fr)
     pro_x, y, pro_df = preprocess()
     shap_plot(model, pro_df, id)
