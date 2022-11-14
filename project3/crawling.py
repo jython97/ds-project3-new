@@ -129,32 +129,6 @@ def make_data(ranker):
                 lst_enemy_champ.append(lst2[:5])
                 lst_enemy.append(lst3[:5])
 
-    #정상적으로 수집되고 있는지 확인
-    print(1, len(lst_name))
-    print(2, len(lst_game))
-    print(3, len(lst_result))
-    print(4, len(lst_time))
-    print(5, len(lst_champion))
-    print(6, len(lst_level))
-    print(7, len(lst_dspell))
-    print(8, len(lst_fspell))
-    print(9, len(lst_mainrune))
-    print(10, len(lst_subrune))
-    print(11, len(lst_item))
-    print(12, len(lst_kill))
-    print(13, len(lst_death))
-    print(14, len(lst_assist))
-    print(15, len(lst_pkill))
-    print(16, len(lst_ward))
-    print(17, len(lst_cs))
-    print(18, len(lst_mincs))
-    print(19, len(lst_tier))
-    print(20, len(lst_participants_champ))
-    print(21, len(lst_participants))
-    print(22, len(lst_enemy))
-    print(23, len(lst_enemy_champ))
-    print(24, len(lst_side))
-
     #데이터 프레임화
     df = pd.DataFrame({'summoners' : lst_name, 
                         'game' : lst_game,
@@ -191,5 +165,5 @@ def concat_data():
     df2 = make_data(ranker[250:])
     df = pd.concat([df1, df2], ignore_index=True)
     df.to_csv('data.csv', index=False)
+    
     return df
-concat_data()

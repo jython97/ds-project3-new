@@ -32,3 +32,11 @@ window.addEventListener('DOMContentLoaded', event => {
     });
 
 });
+
+function toList(arg1, arg2) {
+    var list1 = arg1.split('|');
+    var list2 = arg2.split('|');
+    for (var j=0;j<list1.length;j++) {
+        document.write("<img src="+list1[j]+" alt='oh' width='20' height='20'>"+list2[j]+"<br/>");
+    }
+}

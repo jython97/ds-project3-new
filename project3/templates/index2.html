@@ -17,12 +17,17 @@
           <div class="container px-4">
               <a class="navbar-brand" href="{% url 'index' %}"><img src="../static/image/icon_white.png" width="24" alt="icon" height="24"> 전적 분석 서비스</a>
           </div>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="https://www.op.gg/summoners/kr/{{name}}" target="_blank"><img src="https://opgg-gnb.akamaized.net/static/images/icons/01-icon-00-logo-icon-opggsquare.svg" width="30" alt="op.gg" height="30"> 실제 전적 OP.GG 확인하기</a></li>
+            </ul>
+          </div>
         </nav>
       </div>
       <header class="bg-secondary bg-gradient text-white">
         <div class="container px-4 text-center">
             <h1 class="fw-bolder"><head>
-                <ul>"소환사님의 최근 전적"</ul>
+                <ul>{{name}} 님의 전적 데이터</ul>
             </head> </h1>
             <h4>클릭하여 해당 전적의 승패요인을 분석해보자!</h3>
             <p class="lead"></p>
@@ -62,7 +67,7 @@
                                   <tr onclick=location.href="{% url 'index3' i.id %}" style="cursor:pointer">
                                     <th scope="row">{{i.id}}</th>
                                     <td>{{i.summoners}}</td>
-                                    <td>{{i.game}}</td>
+                                    <td >{{i.game}}</td>
                                     <td>{{i.time}}</td>
                                     <td><img src={{i.champion}} alt="oh" width="22" height="22"></td>
                                     <td>{{i.level}}</td>
@@ -75,8 +80,16 @@
                                     <td>{{i.cs}}</td>
                                     <td>{{i.cs_per_min}}</td>
                                     <td>{{i.average_tier}}</td>
-                                    <td>wait</td>
-                                    <td>wait</td>
+                                    <td>
+                                      <script>
+                                        toList("{{ i.team_champs }}", "{{ i.team }}")
+                                      </script>
+                                    </td>
+                                    <td>
+                                      <script>
+                                        toList("{{ i.enemy_champs }}", "{{ i.enemy }}")
+                                      </script>
+                                    </td>
                                     <td>{{i.side}}</td>
                                     <td>{{i.result}}</td>
                                   </tr>

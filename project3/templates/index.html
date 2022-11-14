@@ -21,12 +21,19 @@
         <div class="masthead">
             <div class="masthead-content text-white">
                 <div class="container-fluid px-4 px-lg-0">
-                    <h1 class="fst-italic lh-1 mb-4">소환사 이름 검색</h1>
-                    <p class="mb-5">소환사명을 검색하면 최근 20게임들 중 '소환사의 협곡'에서 경기한 전적데이터들을 보여줄 것입니다.</p>
+                    <h1 class="fst-italic lh-1 mb-4">LOL 전적분석 AI</h1>
+                    <p class="mb-5">소환사명을 검색하면 해당 소환사의 최근 20게임들 중 '소환사의 협곡'에서 경기한 전적데이터들을 보여줍니다. 단, 500위 랭커들에 한해서만 검색가능하고 소환사명을 모를경우 오른쪽 OP GG 버튼으로 확인하셔야 합니다.</p>
                     <form action="{% url 'index2' %}" method="get">
                         <div class="row input-group-newsletter">
                             <div class="col"><input class="form-control" name="summoners" type="text" placeholder="소환사명을 입력하세요."/></div>
                             <div class="col-auto"><button class="btn btn-primary" id="submit" type="submit">Search</button></div>
+                        </div>
+                    </form>
+                    <p class="mb-5"><br/>갱신버튼을 누르면 최신 전적으로 다시 크롤링하여 모델을 학습시킬 수 있습니다. 갱신은 5~8분 정도 소요됩니다.</p>
+                    <form method="post">
+                        <div class="row input-group-newsletter">
+                            <div class="col">시작날짜 : 2022-11-11 02:00<br/>갱신날짜 : {{date}}</div>
+                            <div class="col-auto"><button class="btn btn-primary" id="submit" type="submit">갱신</button></div>
                         </div>
                     </form>
                 </div>
