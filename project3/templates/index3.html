@@ -74,8 +74,16 @@
                   <td>{{data.cs}}</td>
                   <td>{{data.cs_per_min}}</td>
                   <td>{{data.average_tier}}</td>
-                  <td>wait</td>
-                  <td>wait</td>
+                  <td>
+                    <script>
+                      toList("{{ i.team_champs }}", "{{ i.team }}")
+                    </script>
+                  </td>
+                  <td>
+                    <script>
+                      toList("{{ i.enemy_champs }}", "{{ i.enemy }}")
+                    </script>
+                  </td>
                   <td>{{data.side}}</td>
                   <td>{{data.result}}</td>
                 </tr>
