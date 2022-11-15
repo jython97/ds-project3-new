@@ -3,7 +3,7 @@ import pandas as pd
 
 def remake_db():
     df = pd.read_csv('project3/remake_data.csv')
-    con = psycopg2.connect(host='localhost',dbname="postgres", user="postgres", password="1234",port=5432)
+    con = psycopg2.connect(host='arjuna.db.elephantsql.com',dbname="awpcacnf", user="awpcacnf", password="NdhdYRT3v-4LcHrC3d_ZIu-fRsFJe7ew", port=5432)
 
     cur = con.cursor()
 

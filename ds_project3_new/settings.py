@@ -80,10 +80,10 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR / 'db.sqlite3',
         'ENGINE' : 'django.db.backends.postgresql',
-        'NAME' : 'postgres',
-        'USER' : 'postgres',
+        'NAME' : 'awpcacnf',
+        'USER' : 'NdhdYRT3v-4LcHrC3d_ZIu-fRsFJe7ew',
         'PASSWORD' : '1234',
-        'HOST' : 'localhost',
+        'HOST' : 'arjuna.db.elephantsql.com',
         'PORT' : '5432',
     }
 }
