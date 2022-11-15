@@ -31,6 +31,7 @@
                     </form>
                     <p class="mb-5"><br/>갱신버튼을 누르면 최신 전적으로 다시 크롤링하여 모델을 학습시킬 수 있습니다. 갱신은 5~8분 정도 소요됩니다.</p>
                     <form method="post">
+                        {% csrf_token %}
                         <div class="row input-group-newsletter">
                             <div class="col">시작날짜 : 2022-11-11 02:00<br/>갱신날짜 : {{date}}</div>
                             <div class="col-auto"><button class="btn btn-primary" id="submit" type="submit">갱신</button></div>
