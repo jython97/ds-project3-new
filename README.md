@@ -1,5 +1,273 @@
-# LOL 전적 데이터 승패요인 분석 서비스
-기존에 Bootcamp project3에서 진행했던 주제를 웹 프레임워크와 배포방식에 있어 Flask와 Heroku가 아닌 Django와 AWS로 새롭게 진행한 프로젝트입니다.  
-해당 사이트로 들어가시면 서비스를 확인할 수 있습니다!  
-사이트 주소 : ec2-13-124-110-212.ap-northeast-2.compute.amazonaws.com [바로가기](http://ec2-13-124-110-212.ap-northeast-2.compute.amazonaws.com)    
-(주의!, 도메인명과 https 설정을 하지 않은 상태입니다. 돈...)
+# **League of Legends 승패요인 분석 서비스**
+League of Legends 상위 500위에 속하는 랭커들의 최근 20게임 데이터들을 머신러닝으로 학습시키고 XAI 지표인 shap_plot을 활용하여 어떤 인게임 요소들이 승패에 얼마만큼 영향을 끼쳤는지 보여주는 서비스  
+<br/>
+
+## **개요**
+---
+<br/>
+
+### **진행기간**
+원본 : 2022년 4월  
+수정 : 2022년 11월  
+수정사항 : Flask, Heroku -> Django, AWS  
+'Codestates AI Bootcamp 개인 Project3'에서 동일한 주제로 프로젝트 수행경험이 있습니다. 하지만 당시에는 Flask로 진행했었기에 따로 공부하고 있는 Django를 통해 새롭게 구현해보기로 했습니다. 그리고 Heroku에서 올해 11월 말까지만 프리티어 무료배포 서비스를 운영한다는 소식을 들었어서 AWS EC2를 통해 배포방식을 수정하게 되었습니다.  
+<br/>
+
+### **사용스킬 요약** 
+- 주요 언어 : Python 3.9
+- Editor : VSCode
+- Scraping : BeautifulSoup4
+- Proprocessing : Pandas, Sklearn
+- DB : ElephantSQL PostgreSQL
+- Back-end : Django
+- Front-end : Bootstrap참고-HTML, CSS, Javascript
+- AI Modeling : Sklearn GradientBoosting, Sklearn RandomizedSearchCV
+- Distribution : AWS EC2 Ubuntu  
+<br/>
+
+### **목차** 
+1. 서비스 소개
+2. 개발 과정
+3. 서비스 시연  
+<br/>
+
+## **서비스 소개**
+---
+<br/>
+
+### **1. 필요성**
+기존 OP GG 전적 검색 사이트는 전적데이터에서 어떤 요소들이 얼마만큼 승패에 작용했는지 알 수 있는 분석 서비스는 제공해주지 않고 있습니다. 즉 코칭 서비스를 유치시키기에는 전문가가 처음부터 끝까지 인게임 플레이를 분석해주어야 정확한 분석이 가능하기에 시간과 비용 측면에서 무리라고 판단하고 있는 것 같습니다.  
+하지만 머신러닝을 도입하여 가볍게 즐길 수 있을 정도만이라도 제공해줄 수 있다면 유저들은 마치 프로처럼 자신의 플레이를 분석하며 사이트 이용에 색다른 재미를 느낄 수 있을 것입니다. 이는 유저들의 사이트 이용목적 다양화를 통해 게임 플레이만 하고 전적 사이트를 이용하지 않던 유저들을 유인하는 효과를 기대할 수 있습니다.  
+<br/>
+
+### **2. 서비스 FLOW**
+1. 검색창에서 유저아이디로 유저검색  
+   <p align="center"><img src="../images/login.png" width=500 height=300></p><br/>
+2. 갱신전 시간 기준 해당 유저의 최근 20게임 전적데이터 확인  
+   <p align="center"><img src="../images/table.png" width=500 height=300></p><br/>
+3. 전적 클릭시 해당하는 게임의 승패에 어떤 인게임 요소들이 얼마나 영향을 끼쳤는지 shap_force_plot으로 보여주기  
+   <p align="center"><img src="../images/shap.png" width=500 height=300></p>
+<br/>
+
+> ### SHAP란?
+>     SHAP(SHapley Additive exPlanations)는 Shapley Value(Game Theory를 바탕으로 협력 Game에서 각 Player의 기여분을 수치화한 값)를 기반으로 예측값에 대하여 각 피쳐가 미치는 기여도를 측정하여 글로벌 변수 중요도 뿐만 아니라 개별 예측값에 대한 각 변수들의 영향력을 해석할 수 있는 XAI지표입니다. 그래서 force_plot을 통해 개별 예측값에 대한 긍정적, 부정적 요인 해석을 게임 승패예측값에 대한 긍정적, 부정적 요인 분석으로 연결해서 생각할 수 있었습니다.
+<br/>
+
+### **3. 서비스 개요**
+ㄴㅇㄹ
+<br/>
+
+## **개발 과정**
+---
+<br/>
+
+### **1. 데이터 수집**
+1. LOL OP GG사이트에서 랭킹 500위 유저들의 최근 20게임 전적 데이터들을 BeautifulSoup4로 스크래핑합니다.  
+<p align="center"><img src="../images/op_gg.png" width=500 height=300></p><br/>
+
+> **랭커 데이터를 수집하는 이유?**  
+> 롤에서 메타에 가장 민감하게 반응하는 구간이기도 하고 포지션에 따른 인게임 지표가 가장 두드러지게 나타나는 구간이기 때문입니다. 예를 들면 원딜 포지션의 랭커들은 분당 CS, KDA가 다른 포지션의 플레이어들보다 높을 수 밖에 없습니다. 그리고 이러한 미션을 해당 게임내에서 잘 수행해내었다면 승리에 큰 영향을 끼쳤을 것이라고 해석할 수 있습니다. 특히 고티어 유저들은 포지션별로 이러한 특징이 가장 잘 나타나고 포지션별 역할이 정형화되어있어 해석에 있어서 적합한 데이터는 랭커들의 데이터라고 할 수 있습니다. 그래서 가장 잘하는 Player들인 500위권안의 랭커들의 매치데이터가 학습에 적합하다고 판단하였습니다.  
+
+> **BeautifulSoup4로 스크랩핑한 이유?**  
+> Riot api를 통해 받아올 수도 있지만 굳이 크롤링을 선택한 이유는 Riot api의 requests 제한이  
+> 20 requests every 1 seconds(s)  
+> 100 requests every 2 minutes(s)  
+> 위와 같이 걸려있기 때문입니다. 또한 필요로 하는 매치데이터를 받아오기 위해서는 소환사명 api를 받아오고 다시 소환사별로 매치데이터를 따로 요청해야합니다. 한 소환사의 매치데이터를 받아오는데도 44번정도의 api요청이 발생하는데 10000개의 매치데이터를 받아오려면 상당히 많은 시간이 소요될 것을 예상할 수 있습니다. 실제로 인터넷에서 Riot api를 다루는 글들을 찾아보면 받아오는 속도도 느리고 받고 나서도 유효한 데이터를 추출해내는 과정이 필요해서 이미 Riot api를 잘 가공해놓은 OP GG를 크롤링하는 것이 속도면에서 훨씬 효율적이라는 사실을 알 수 있습니다. 갱신 서비스도 함께 만들 것이기 때문에 시간소요를 최대한 줄이기위해 스크래핑을 선택하게 되었습니다.  
+> 또한 Selenium 동적 웹크롤러가 필요하지 않은 이유는 이미 OP GG에서 소환사 기본페이지에 최근 20게임의 매치데이터들을 모두 보여주고 있고 한번 requests에 한번만 파싱하면 필요한 데이터들을 다 긁어올 수 있기 때문에 굳이 사용할 필요가 없습니다.
+
+<br/>
+
+2. crawling.py 파일을 만들어 실행하고 csv파일로 수집결과를 저장합니다. 이때 7000개 정도 수집되는 시점에 OP GG에서 block을 거는데 4분이라는 시간을 기다렸다가 다시 수집하도록 5000개에서 time.sleep을 줍니다.  
+   ```python
+   # 자세한 내용은 project3/crawling.py 파일을 보시면 알 수 있습니다.
+   def concat_data():
+      ranker = top_500_list() # 500위 랭커 리스트 구하기
+      df1 = make_data(ranker[:250]) # 1~250위까지 20게임씩 스크래핑
+      time.sleep(240) # 4분 딜레이
+      df2 = make_data(ranker[250:]) # 251~500위까지 20게임씩 스크래핑
+      df = pd.concat([df1, df2], ignore_index=True)
+      df.to_csv('data.csv', index=False) # csv파일로 저장
+      
+      return df
+   ```
+<br/>
+
+3. 수집된 데이터를 EDA하고 몇몇 row들은 drop해줍니다. 예를 들어 게임승패가 '다시하기'인 경우 한명이 탈주함으로 인해 정상적인 게임이 아니므로 드랍해줍니다. 자세한 내용은 project3/ai.py 파일의 row_drop() 함수를 보시면 알 수 있습니다.  
+<br/>
+
+### **2. 데이터 적재**
+머신러닝 모델에 학습시키기 전 소환사의 전적을 보여주는 서비스를 먼저 구현해야하므로 DB에 데이터들을 저장시켜줄 필요가 있습니다. 특별히 챔피언, 룬, 스펠, 아이템 등은 이미지로 표현해주는게 훨씬 좋기 때문에 가능하다면 각 요소들의 값을 이미지링크로 대체시켜줄 필요도 있습니다. 굳이 이미지 링크인 이유는 github의 100MB 제한뿐만 아니라 DB에 적재시킬 때 문자열 형식으로 저장하게 되면 훨씬 간편하게 대량의 이미지들을 서비스에 보여줄 수 있기 때문입니다.  
+<br/>
+
+1. ElephantSQL을 통해 PostgreSQL DB서버를 따로 분리해서 호스팅해줍니다.
+<p align="center"><img src="../images/elephantsql.png" width=500 height=300></p><br/>
+
+2. 챔피언, 룬, 스펠 데이터들을 이미지링크로 바꿔서 csv파일로 저장해주고 이를 DB에 적재시킵니다. 자세한 내용은 db.py, project3/remake_data.py 파일을 보시면 알 수 있습니다.  
+<p align="center"><img src="../images/db.png" width=500 height=300></p><br/>
+
+### **3. 머신러닝 모델 학습**
+1. 학습에 용이하게 데이터를 다시 전처리하고 모델은 GradientBoostingClassifier, 하이퍼파라미터 튜닝은 RandomizedSearchCV로 간단하게 학습시킵니다. 최적의 모델을 pickle파일로 저장해줍니다. 자세한 내용은 project3/ai.py 파일을 보시면 알 수 있습니다.
+   ```python
+   def boosting(pro_x, y):
+      # 학습 및 하이퍼 파라미터 튜닝
+      gbm = GradientBoostingClassifier(random_state=42)
+
+      params = {
+         "learning_rate" : [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5],
+         "n_estimators" : [100, 500]
+      }
+
+      model = RandomizedSearchCV(gbm, param_distributions=params, n_iter=5, scoring='accuracy', n_jobs=-1, cv=3, verbose=1, random_state=42)
+      model.fit(pro_x, y)
+
+      print('최적 하이퍼파라미터 :', model.best_params_)
+      print('최적 정확도 :', model.best_score_)
+      # 최적 하이퍼파라미터 : {'n_estimators': 500, 'learning_rate': 0.05}
+      # 최적 정확도 : 0.9089591690046142
+
+      # 피클 파일로 저장
+      with open("model.pickle", "wb") as fw:
+         pickle.dump(model.best_estimators, fw)
+      return model
+   ```
+<br/>
+
+2. 특정 소환사명이 들어오면 이를 인덱스로 받아들이고 이 인덱스에 해당하는 shap_force_plot 이미지를 생성해줍니다.
+   ```python
+   def shap_plot(model, pro_df, index):
+      row = pro_df.iloc[index,:]
+      explainer = shap.TreeExplainer(model)
+      shap_values = explainer.shap_values(row)
+
+      shap.force_plot(
+         base_value=explainer.expected_value, 
+         shap_values=shap_values,
+         features=row,
+         show=False,
+         matplotlib = True
+      ).savefig('project3/static/image/shap.png')
+      return explainer, shap_values
+   ```
+<p align="center"><img src="../images/real_shap.png" width=700 height=100></p><br/>
+
+### **4. Django로 Back-end 구성**
+MVT 패턴에 맞게 project3라는 앱을 만든 후 PostgreSQL을 model과 연결해주고 Bootstrap CSS, Javascript를 베이스로 적절한 수정을 거쳐 만들어진 templates들을 views로 렌더링해줍니다. 자세한 내용은 ds_project3_new/settings.py, project3/models.py, project3/urls.py, project3/views.py, project3/templates 파일들, project3/static 파일들을 보시면 알 수 있습니다.
+1. models.py  
+이미 DB서버에 table이 존재하므로 "python manage.py inspectdb > models.py"로 models.py 파일을 생성할 수 있습니다. 여기서는 직접 만들어 보았습니다.
+   ```python
+   from django.db import models
+
+   # PostgreSQL DB와 연동될 장고 Model
+   class data(models.Model):
+      id = models.BigIntegerField(primary_key=True)
+      summoners = models.CharField(max_length=255)
+      game = models.CharField(max_length=255)
+      result = models.CharField(max_length=255)
+      time = models.CharField(max_length=255)
+      champion = models.TextField()
+      level = models.IntegerField()
+      d_spell = models.TextField()
+      f_spell = models.TextField()
+      main_rune = models.TextField()
+      sub_rune = models.TextField()
+      items = models.TextField()
+      kill = models.IntegerField()
+      death = models.IntegerField()
+      assist = models.IntegerField()
+      p_kill = models.CharField(max_length=255)
+      pinkward = models.IntegerField()
+      cs = models.IntegerField()
+      cs_per_min = models.IntegerField()
+      average_tier = models.CharField(max_length=255)
+      team_champs = models.TextField()
+      team = models.TextField()
+      enemy_champs = models.TextField()
+      enemy = models.TextField()
+      side = models.CharField(max_length=255)
+
+      class Meta:
+         db_table = 'data'
+   ```
+<br/>
+
+2. urls.py
+   ```python
+   from django.urls import path
+   from . import views
+
+   urlpatterns = [
+      path('', views.index, name='index'),
+      path('table/', views.index2, name='index2'),
+      path('<int:id>/', views.index3, name='index3')
+   ]
+   ```
+<br/>
+
+3. views.py
+   ```python
+   # 첫 화면 출력.
+   def index(request):
+      # 갱신요청을 post로 받음
+      if request.method=="POST":
+         # 데이터 새롭게 크롤링
+         concat_data()
+         row_drop()
+
+         # 새로운 모델 생성
+         pro_x, y, pro_df = preprocess()
+         model = boosting(pro_x, y)
+
+         # postgres db갱신
+         remake_data()
+         remake_db()
+
+         # 갱신날짜 표시
+         date = datetime.datetime.now()
+         context = {"date" : data}
+         return render(request, 'index.html', context)
+
+      return render(request, 'index.html')
+
+   # 소환사 명을 받아서 db에서 필터링한 결과를 보내줌.
+   def index2(request):
+      name = request.GET['summoners']
+      dat = data.objects.filter(summoners=name)
+      context = {"data" : dat, "name" : name}
+      return render(request, 'index2.html', context)
+
+   # 두번째화면에서 클릭한 row에 해당하는 index값의 shap_plot을 생성하고 이를 출력.
+   def index3(request, id):
+      with open('project3/model.pickle', 'rb') as fr:
+         model = pickle.load(fr)
+      pro_x, y, pro_df = preprocess()
+      shap_plot(model, pro_df, id)
+      dat = data.objects.get(id=id)
+      context = {"data" : dat}
+      return render(request, 'index3.html', context)
+   ```
+<br/>
+
+### **5. 배포**
+AWS EC2 Ubuntu 서버를 이용해서 상시 배포를 진행하였습니다.
+<p align="center"><img src="../images/aws.png" width=500 height=400></p><br/>
+로컬OS가 윈도우11이라서 putty를 통해 원격접속한 점을 빼고는 아래의 블로그를 따라하면서 배포시켰습니다. 라즈베리파이4B OS에 putty로 원격접속해 shell을 다뤄본 경험이 있기에 매우 쉽게 배포시킬 수 있었습니다. 자세한 내용은 너무 길기 때문에 생략하겠습니다.  
+
+[네로의 다락방 - Django 서비스 AWS로 배포하기](https://nerogarret.tistory.com/45?category=800142)
+<br/><br/>
+
+### **6. 최종 데이터 파이프라인**
+<br/>
+<p align="center"><img src="../images/aws.png" width=500 height=400></p><br/>
+
+## **서비스 시연**
+---
+<br/>
+
+도메인명과 https 설정은 하지 않았습니다.  
+URL : ec2-13-124-110-212.ap-northeast-2.compute.amazonaws.com  
+[바로가기](http://ec2-13-124-110-212.ap-northeast-2.compute.amazonaws.com)  
+<br/>
+
+## **한계점**
+---
+<br/>
