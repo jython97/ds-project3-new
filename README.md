@@ -1,41 +1,36 @@
-# **League of Legends 승패요인 분석 서비스**
+# **League of Legends 승패요인 분석 서비스(LOL AI코칭 서비스)**
 League of Legends 상위 500위에 속하는 랭커들의 최근 20게임 데이터들을 머신러닝으로 학습시키고 XAI 지표인 shap_plot을 활용하여 어떤 인게임 요소들이 승패에 얼마만큼 영향을 끼쳤는지 보여주는 서비스  
 <br/>
 
 ## **개요**
----
-<br/>
-
 ### **진행기간**
 원본 : 2022년 4월  
 수정 : 2022년 11월  
 수정사항 : Flask, Heroku -> Django, AWS  
-'Codestates AI Bootcamp 개인 Project3'에서 동일한 주제로 프로젝트 수행경험이 있습니다. 하지만 당시에는 Flask로 진행했었기에 따로 공부하고 있는 Django를 통해 새롭게 구현해보기로 했습니다. 그리고 Heroku에서 올해 11월 말까지만 프리티어 무료배포 서비스를 운영한다는 소식을 들었어서 AWS EC2를 통해 배포방식을 수정하게 되었습니다.  
+'Codestates AI Bootcamp 개인 Project3'에서 동일한 주제로 프로젝트 수행경험이 있습니다. 하지만 당시에는 Flask로 진행했었기에 따로 공부하고 있는 Django를 통해 새롭게 구현해보기로 했습니다. 그리고 Heroku에서 올해 11월 말까지만 프리티어 무료배포를 지원한다는 소식으로 인해 AWS EC2로 배포방식을 수정하게 되었습니다.  
 <br/>
 
 ### **사용스킬 요약** 
 - 주요 언어 : Python 3.9
-- Editor : VSCode
+- Editor : VS Code
 - Scraping : BeautifulSoup4
 - Proprocessing : Pandas, Sklearn
-- DB : ElephantSQL PostgreSQL
+- DB : ElephantSQL
 - Back-end : Django
 - Front-end : Bootstrap참고-HTML, CSS, Javascript
-- AI Modeling : Sklearn GradientBoosting, Sklearn RandomizedSearchCV
+- AI Modeling : Sklearn
 - Distribution : AWS EC2 Ubuntu  
 <br/>
 
 ### **목차** 
 1. 서비스 소개
 2. 개발 과정
-3. 서비스 시연  
+3. 서비스 시연
+4. 개선사항  
 <br/>
 
 ## **서비스 소개**
----
-<br/>
-
-### **1. 필요성**
+### **1. 배경**
 기존 OP GG 전적 검색 사이트는 전적데이터에서 어떤 요소들이 얼마만큼 승패에 작용했는지 알 수 있는 분석 서비스는 제공해주지 않고 있습니다. 즉 코칭 서비스를 유치시키기에는 전문가가 처음부터 끝까지 인게임 플레이를 분석해주어야 정확한 분석이 가능하기에 시간과 비용 측면에서 무리라고 판단하고 있는 것 같습니다.  
 하지만 머신러닝을 도입하여 가볍게 즐길 수 있을 정도만이라도 제공해줄 수 있다면 유저들은 마치 프로처럼 자신의 플레이를 분석하며 사이트 이용에 색다른 재미를 느낄 수 있을 것입니다. 이는 유저들의 사이트 이용목적 다양화를 통해 게임 플레이만 하고 전적 사이트를 이용하지 않던 유저들을 유인하는 효과를 기대할 수 있습니다.  
 <br/>
@@ -50,17 +45,10 @@ League of Legends 상위 500위에 속하는 랭커들의 최근 20게임 데이
 <br/>
 
 > ### SHAP란?
->     SHAP(SHapley Additive exPlanations)는 Shapley Value(Game Theory를 바탕으로 협력 Game에서 각 Player의 기여분을 수치화한 값)를 기반으로 예측값에 대하여 각 피쳐가 미치는 기여도를 측정하여 글로벌 변수 중요도 뿐만 아니라 개별 예측값에 대한 각 변수들의 영향력을 해석할 수 있는 XAI지표입니다. 그래서 force_plot을 통해 개별 예측값에 대한 긍정적, 부정적 요인 해석을 게임 승패예측값에 대한 긍정적, 부정적 요인 분석으로 연결해서 생각할 수 있었습니다.
-<br/>
-
-### **3. 서비스 개요**
-ㄴㅇㄹ
+> SHAP(SHapley Additive exPlanations)는 Shapley Value(Game Theory를 바탕으로 협력 Game에서 각 Player의 기여분을 수치화한 값)를 기반으로 예측값에 대하여 각 피쳐가 미치는 기여도를 측정하여 글로벌 변수 중요도 뿐만 아니라 개별 예측값에 대한 각 변수들의 영향력을 해석할 수 있는 XAI지표입니다. 그래서 force_plot을 통해 개별 예측값에 대한 긍정적, 부정적 요인 해석을 게임 승패예측값에 대한 긍정적, 부정적 요인 분석으로 연결해서 생각할 수 있었습니다.
 <br/>
 
 ## **개발 과정**
----
-<br/>
-
 ### **1. 데이터 수집**
 1. LOL OP GG사이트에서 랭킹 500위 유저들의 최근 20게임 전적 데이터들을 BeautifulSoup4로 스크래핑합니다.  
 <p align="center"><img src="readme_image/op_gg.png" width=500 height=300></p><br/>
@@ -248,7 +236,7 @@ MVT 패턴에 맞게 project3라는 앱을 만든 후 PostgreSQL을 model과 연
 <br/>
 
 ### **5. 배포**
-AWS EC2 Ubuntu 서버를 이용해서 상시 배포를 진행하였습니다.
+AWS EC2 Ubuntu를 이용해 클라우드 상에서 배포하였습니다.
 <p align="center"><img src="readme_image/aws.png" width=500 height=400></p><br/>
 로컬OS가 윈도우11이라서 putty를 통해 원격접속한 점을 빼고는 아래의 블로그를 따라하면서 배포시켰습니다. 라즈베리파이4B OS에 putty로 원격접속해 shell을 다뤄본 경험이 있기에 매우 쉽게 배포시킬 수 있었습니다. 자세한 내용은 너무 길기 때문에 생략하겠습니다.  
 
@@ -257,17 +245,16 @@ AWS EC2 Ubuntu 서버를 이용해서 상시 배포를 진행하였습니다.
 
 ### **6. 최종 데이터 파이프라인**
 <br/>
-<p align="center"><img src="readme_image/aws.png" width=500 height=400></p><br/>
+<p align="center"><img src="readme_image/pipeline.png" width=500 height=400></p><br/>
 
 ## **서비스 시연**
----
-<br/>
-
 도메인명과 https 설정은 하지 않았습니다.  
 URL : ec2-13-124-110-212.ap-northeast-2.compute.amazonaws.com  
 [바로가기](http://ec2-13-124-110-212.ap-northeast-2.compute.amazonaws.com)  
 <br/>
 
-## **한계점**
----
-<br/>
+## **개선사항**
+- **서비스의 질** : 대쉬보드와 같이 코칭내용을 시각화시켜서 보고서 형식으로 보여주면 더 좋을 것 같습니다. 아직은 부족한 부분이 많아서 차후 개선할 예정입니다.
+- **갱신속도** : 전적데이터의 경우, 매일매일 새롭게 갱신되는 데이터이므로 서비스로 제공하려면 갱신속도가 매우 빨라야합니다. 하지만 크롤링과정에서 5분 정도의 많은 시간소요가 발생하고 DB 업데이트 과정 역시도 1분 이상의 시간소요가 발생하면서 전체적으로 갱신속도가 7분이 넘어갑니다. 갱신속도를 줄이는 방법을 생각해봐야겠습니다.
+- **아이템 속성** : 아이템의 경우, 이미지링크가 아닌 문자열로만 표현했습니다. 시간을 더 투자해서 아이템도 이미지링크로 바꿔 적재할 필요가 있습니다.
+- **보안** : 도메인명 구입과 https 설정을 하지 않아서 보안문제가 우려됩니다. 지출을 해서라도 보안을 지킬 필요가 있습니다.
