@@ -40,11 +40,11 @@ League of Legends 상위 500위에 속하는 랭커들의 최근 20게임 데이
 
 ### **2. 서비스 FLOW**
 1. 검색창에서 유저아이디로 유저검색  
-   <p align="center"><img src="readme_image/login.png" width=500 height=300></p><br/>
+   <p align="center"><img src="project3/static/image/readme_image/login.png" width=500 height=300></p><br/>
 2. 갱신전 시간 기준 해당 유저의 최근 20게임 전적데이터 확인  
-   <p align="center"><img src="readme_image/table.png" width=500 height=300></p><br/>
+   <p align="center"><img src="project3/static/image/readme_image/table.png" width=500 height=300></p><br/>
 3. 전적 클릭시 해당하는 게임의 승패에 어떤 인게임 요소들이 얼마나 영향을 끼쳤는지 shap_force_plot으로 보여주기  
-   <p align="center"><img src="readme_image/shap_plot.png" width=500 height=300></p>
+   <p align="center"><img src="project3/static/image/readme_image/shap_plot.png" width=500 height=300></p>
 <br/>
 
 > ### SHAP란?
@@ -54,7 +54,7 @@ League of Legends 상위 500위에 속하는 랭커들의 최근 20게임 데이
 ## **개발 과정**
 ### **1. 데이터 수집**
 1. LOL OP GG사이트에서 랭킹 500위 유저들의 최근 20게임 전적 데이터들을 BeautifulSoup4로 스크래핑합니다.  
-<p align="center"><img src="readme_image/op_gg.png" width=500 height=300></p><br/>
+<p align="center"><img src="project3/static/image/readme_image/op_gg.png" width=500 height=300></p><br/>
 
 > **랭커 데이터를 수집하는 이유?**  
 > 롤에서 메타에 가장 민감하게 반응하는 구간이자 포지션에 따른 인게임 지표가 가장 두드러지게 나타나는 구간이 바로 랭커구간입니다. 예를 들면 원딜 포지션의 랭커들은 분당 CS, KDA가 다른 포지션의 플레이어들보다 높을 수 밖에 없습니다. 그리고 이러한 미션을 해당 게임내에서 잘 수행해냈다면 승리에 큰 영향을 끼쳤다고 해석할 수 있습니다. 특히 고티어 유저들은 포지션별로 이러한 특징이 가장 잘 나타납니다. 포지션별 역할이 정형화되어있기에 해석에 있어서 적합한 데이터는 랭커들의 데이터라고 할 수 있습니다.
@@ -93,10 +93,10 @@ League of Legends 상위 500위에 속하는 랭커들의 최근 20게임 데이
 <br/>
 
 1. ElephantSQL을 통해 PostgreSQL DB서버를 따로 분리해서 호스팅해줍니다.
-<p align="center"><img src="readme_image/elephantsql.png" width=500 height=300></p><br/>
+<p align="center"><img src="project3/static/image/readme_image/elephantsql.png" width=500 height=300></p><br/>
 
 2. 챔피언, 룬, 스펠 데이터들을 이미지링크로 바꿔서 csv파일로 저장해주고 이를 DB에 적재시킵니다. 자세한 내용은 db.py, project3/remake_data.py 파일을 보시면 알 수 있습니다.  
-<p align="center"><img src="readme_image/db.png" width=500 height=300></p><br/>
+<p align="center"><img src="project3/static/image/readme_image/db.png" width=500 height=300></p><br/>
 
 ### **3. 머신러닝 모델 학습**
 1. 학습에 용이하게 데이터를 다시 전처리하고 모델은 GradientBoostingClassifier, 하이퍼파라미터 튜닝은 RandomizedSearchCV로 간단하게 학습시킵니다. 최적의 모델을 pickle파일로 저장해줍니다. 자세한 내용은 project3/ai.py 파일을 보시면 알 수 있습니다.
@@ -141,7 +141,7 @@ League of Legends 상위 500위에 속하는 랭커들의 최근 20게임 데이
       ).savefig('project3/static/image/shap.png')
       return explainer, shap_values
    ```
-<p align="center"><img src="readme_image/real_shap.png" width=700 height=100></p><br/>
+<p align="center"><img src="project3/static/image/readme_image/real_shap.png" width=700 height=100></p><br/>
 
 ### **4. Django로 Back-end 구성**
 MVT 패턴에 맞게 project3라는 앱을 만든 후 PostgreSQL을 model과 연결해주고 Bootstrap CSS, Javascript를 베이스로 적절한 수정을 거쳐 만들어진 templates들을 views로 렌더링해줍니다. 자세한 내용은 ds_project3_new/settings.py, project3/models.py, project3/urls.py, project3/views.py, project3/templates 파일들, project3/static 파일들을 보시면 알 수 있습니다.
@@ -242,7 +242,7 @@ MVT 패턴에 맞게 project3라는 앱을 만든 후 PostgreSQL을 model과 연
 
 ### **5. 배포**
 AWS EC2 Ubuntu를 이용해 클라우드 상에서 배포하였습니다.
-<p align="center"><img src="readme_image/aws.png" width=500 height=400></p><br/>
+<p align="center"><img src="project3/static/image/readme_image/aws.png" width=500 height=400></p><br/>
 로컬OS가 윈도우11이라서 putty를 통해 원격접속한 점을 빼고는 아래의 블로그를 따라하면서 배포시켰습니다.  
 
 라즈베리파이4B OS에 putty 원격접속으로 shell을 다뤄본 경험이 있어서 그런지 쉽게 배포할 수 있었습니다. 자세한 내용은 너무 길기 때문에 생략하겠습니다.  
@@ -252,7 +252,7 @@ AWS EC2 Ubuntu를 이용해 클라우드 상에서 배포하였습니다.
 
 ### **6. 최종 데이터 파이프라인**
 <br/>
-<p align="center"><img src="readme_image/pipeline.png" width=500 height=400></p><br/>
+<p align="center"><img src="project3/static/image/readme_image/pipeline.png" width=500 height=400></p><br/>
 
 ## **서비스 시연**
 도메인명과 https 설정은 하지 않았습니다.  
