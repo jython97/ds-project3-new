@@ -247,7 +247,7 @@ AWS EC2 Ubuntu를 이용해 클라우드 상에서 배포하였습니다.
 
 라즈베리파이4B OS에 putty 원격접속으로 shell을 다뤄본 경험이 있어서 그런지 쉽게 배포할 수 있었습니다. 자세한 내용은 너무 길기 때문에 생략하겠습니다.  
 
-[네로의 다락방 - Django 서비스 AWS로 배포하기](https://nerogarret.tistory.com/45?category=800142){: target="_blank"}
+<a href="https://nerogarret.tistory.com/45?category=800142" target="_blank">네로의 다락방 - Django 서비스 AWS로 배포하기</a>
 <br/><br/>
 
 ### **6. 최종 데이터 파이프라인**
@@ -257,7 +257,7 @@ AWS EC2 Ubuntu를 이용해 클라우드 상에서 배포하였습니다.
 ## **서비스 시연**
 도메인명과 https 설정은 하지 않았습니다.  
 URL : ec2-13-124-110-212.ap-northeast-2.compute.amazonaws.com  
-[바로가기](http://ec2-13-124-110-212.ap-northeast-2.compute.amazonaws.com){: target="_blank"}  
+<a href="http://ec2-13-124-110-212.ap-northeast-2.compute.amazonaws.com" target="_blank">바로가기</a>
 <br/>
 
 ## **개선사항**
