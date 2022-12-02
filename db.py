@@ -43,3 +43,5 @@ def remake_db():
     con.commit()
     cur.close()
     con.close()
+
+remake_db()
