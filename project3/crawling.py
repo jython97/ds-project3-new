@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 import time
+import multiprocessing
 
 headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36'}
 
@@ -159,11 +160,60 @@ def make_data(ranker):
 
 #한번에 많은 정보를 스크래핑 하려하면 OP GG에서 접속을 끊어버려서 어쩔 수 없이 시간차를 두고 데이터를 수집한다.
 def concat_data():
-    ranker = top_500_list()
-    df1 = make_data(ranker[:250])
-    time.sleep(240)
-    df2 = make_data(ranker[250:])
+    ranker = top_500_list() # 500위 랭커 리스트 구하기
+    df1 = make_data(ranker[:250]) # 1~250위까지 20게임씩 스크래핑
+    time.sleep(180) # 3분 딜레이
+    df2 = make_data(ranker[250:]) # 251~500위까지 20게임씩 스크래핑
     df = pd.concat([df1, df2], ignore_index=True)
-    df.to_csv('data.csv', index=False)
-    
+    df.to_csv('data.csv', index=False) # csv파일로 저장
+
     return df
+
+# def concat_data():
+#     multiprocessing.freeze_support()
+
+#     #랭킹 500위 유저들의 리스트
+#     ranker = top_500_list()
+
+#     #랭킹 250위 유저들까지 크롤링하여 Dataframe으로 변환
+#     start = time.time()
+#     pool = multiprocessing.Pool(processes=5)
+#     results = [
+#         pool.apply_async(make_data, args=(ranker[:50],)),
+#         pool.apply_async(make_data, args=(ranker[50:100],)),
+#         pool.apply_async(make_data, args=(ranker[100:150],)),
+#         pool.apply_async(make_data, args=(ranker[150:200],)),
+#         pool.apply_async(make_data, args=(ranker[200:250],))]
+#     df1, df2, df3, df4, df5 = [result.get() for result in results]
+#     pool.close()
+#     pool.join()
+#     end = time.time()
+#     print('time1 : {0}'.format(end - start))
+#     df = pd.concat([df1, df2, df3, df4, df5], ignore_index=True)
+
+#     #OP.GG의 블락을 감당하기 위해 3분 기다리기
+#     time.sleep(180)
+
+#     #랭킹 250위~500위 유저들까지 크롤링하여 Dataframe으로 변환
+#     start = time.time()
+#     pool = multiprocessing.Pool(processes=5)
+#     results = [
+#         pool.apply_async(make_data, args=(ranker[250:300],)),
+#         pool.apply_async(make_data, args=(ranker[300:350],)),
+#         pool.apply_async(make_data, args=(ranker[350:400],)),
+#         pool.apply_async(make_data, args=(ranker[400:450],)),
+#         pool.apply_async(make_data, args=(ranker[450:500],))]
+#     df1, df2, df3, df4, df5 = [result.get() for result in results]
+#     pool.close()
+#     pool.join()
+#     end = time.time()
+#     print('time2 : {0}'.format(end - start))
+#     df = pd.concat([df, df1, df2, df3, df4, df5], ignore_index=True)
+
+#     df.to_csv('data.csv', index=False)
+    
+#     return df
+
+# if __name__=="__main__":
+#     concat_data()
+#     print(multiprocessing.cpu_count())
