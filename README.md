@@ -70,13 +70,13 @@ League of Legends 상위 500위에 속하는 랭커들의 최근 20게임 데이
 
 <br/>
 
-2. crawling.py 파일을 만들어 실행하고 csv파일로 수집결과를 저장합니다. 이때 7000개 정도 수집되는 시점에 OP GG에서 block을 거는데 4분이라는 시간을 기다렸다가 다시 수집하도록 5000개에서 time.sleep을 줍니다.  
+1. crawling.py 파일을 만들어 실행하고 csv파일로 수집결과를 저장합니다. 이때 7000개 정도 수집되는 시점에 OP GG에서 block을 거는데 4분이라는 시간을 기다렸다가 다시 수집하도록 5000개에서 time.sleep을 줍니다. (**AWS EC2 t2.micro의 코어가 1이기 때문에 multiprocessing을 통한 병렬처리는 하지 못했습니다.**)  
    ```python
    # 자세한 내용은 project3/crawling.py 파일을 보시면 알 수 있습니다.
    def concat_data():
       ranker = top_500_list() # 500위 랭커 리스트 구하기
       df1 = make_data(ranker[:250]) # 1~250위까지 20게임씩 스크래핑
-      time.sleep(240) # 4분 딜레이
+      time.sleep(180) # 3분 딜레이
       df2 = make_data(ranker[250:]) # 251~500위까지 20게임씩 스크래핑
       df = pd.concat([df1, df2], ignore_index=True)
       df.to_csv('data.csv', index=False) # csv파일로 저장
@@ -85,7 +85,7 @@ League of Legends 상위 500위에 속하는 랭커들의 최근 20게임 데이
    ```
 <br/>
 
-3. 수집된 데이터를 EDA하고 몇몇 row들은 drop해줍니다. 예를 들어 게임승패가 '다시하기'인 경우 한명이 탈주함으로 인해 정상적인 게임이 아니므로 드랍해줍니다. 자세한 내용은 project3/ai.py 파일의 row_drop() 함수를 보시면 알 수 있습니다.  
+1. 수집된 데이터를 EDA하고 몇몇 row들은 drop해줍니다. 예를 들어 게임승패가 '다시하기'인 경우 한명이 탈주함으로 인해 정상적인 게임이 아니므로 드랍해줍니다. 자세한 내용은 project3/ai.py 파일의 row_drop() 함수를 보시면 알 수 있습니다.  
 <br/>
 
 ### **2. 데이터 적재**
