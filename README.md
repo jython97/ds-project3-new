@@ -243,9 +243,7 @@ MVT 패턴에 맞게 project3라는 앱을 만든 후 PostgreSQL을 model과 연
 ### **5. 배포**
 AWS EC2 Ubuntu를 이용해 클라우드 상에서 배포하였습니다.
 <p align="center"><img src="project3/static/image/readme_image/aws.png" width=500 height=400></p><br/>
-로컬OS가 윈도우11이라서 putty를 통해 원격접속한 점을 빼고는 아래의 블로그를 따라하면서 배포시켰습니다.  
-
-라즈베리파이4B OS에 putty 원격접속으로 shell을 다뤄본 경험이 있어서 그런지 쉽게 배포할 수 있었습니다. 자세한 내용은 너무 길기 때문에 생략하겠습니다.  
+로컬OS가 윈도우11이라서 putty를 통해 원격접속한 점을 빼고는 아래의 블로그를 따라하면서 배포시켰습니다.   
 
 <a href="https://nerogarret.tistory.com/45?category=800142" target="_blank" rel="noreferror">네로의 다락방 - Django 서비스 AWS로 배포하기</a>
 <br/><br/>
